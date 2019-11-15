@@ -1,0 +1,16 @@
+﻿@model Crud.Core.Models.Post
+
+
+<div>
+    <hr />
+	<h1>
+		@Html.DisplayFor(model => model.Title)
+	</h1>
+	<p>
+		@Html.DisplayFor(model => model.Description)
+	</p>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
