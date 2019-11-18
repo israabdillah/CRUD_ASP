@@ -5,44 +5,51 @@ using System.Web;
 using System.Web.Mvc;
 using Crud.Core.Contracts;
 using Crud.Core.Models;
+using Crud.Core.ViewModels;
 
 namespace Crud.WebUI.Controllers
 {
 	public class PostController : Controller
 	{
 		IRepository<Post> context;
+		IRepository<PostCategory> CategoryContext;
 
-		public PostController(IRepository<Post> Context) {
-			context = Context;
-		}
+		public PostController(IRepository<Post> postContext, IRepository<PostCategory> categoryContext) {
+			context = postContext;
+			CategoryContext = categoryContext;	
+  }
 
-		public ActionResult Index()
-		{
+		public ActionResult Index() {
 			List<Post> posts = context.Collection().ToList();
 			return View(posts);
 		}
+
 		public ActionResult Details(string Id) {
 			Post posts = context.Find(Id);
-			if(posts == null) {
+			if (posts == null)
+			{
 				return HttpNotFound();
 			}
-			else 
-			{
+			else {
 				return View(posts);
 			}
 		}
+
 		public ActionResult Create() {
-			Post posts = new Post();
-			return View(posts);
+			PostViewModel vm = new PostViewModel();
+
+			vm.Posts = new Post();
+			vm.PostCategories = CategoryContext.Collection();
+			return View(vm);
 		}
+
 		[HttpPost]
 		public ActionResult Create(Post posts) {
 			if (!ModelState.IsValid)
 			{
 				return View(posts);
 			}
-			else
-			{
+			else {
 				context.Insert(posts);
 				context.Commit();
 
@@ -56,33 +63,29 @@ namespace Crud.WebUI.Controllers
 			{
 				return HttpNotFound();
 			}
-			else 
-			{
-				return View(posts);
+			else {
+				PostViewModel vm2 = new PostViewModel();
+				vm2.Posts = posts;
+				vm2.PostCategories = CategoryContext.Collection();
+
+				return View(vm2);
 			}
 		}
 		[HttpPost]
-		public ActionResult Edit(Post posts, String Id)
-		{
-			Post PostToEdit = context.Find(Id);
-			if (PostToEdit == null)
+		public ActionResult Edit(Post posts, string Id) {
+			Post postToEdit = context.Find(Id);
+			if (postToEdit == null)
 			{
-				return HttpNotFound();
+				return View(posts);
 			}
 			else {
-				if (!ModelState.IsValid)
-				{
-					return View(posts);
-				}
-				else 
-				{
-					PostToEdit.Title = posts.Title;
-					PostToEdit.Description = posts.Description;
-					PostToEdit.Category = posts.Category;
-					context.Commit();
+				postToEdit.Category = posts.Category;
+				postToEdit.Title = posts.Title;
+				postToEdit.Description = posts.Description;
 
-					return RedirectToAction("Index");
-				}
+				context.Commit();
+
+				return RedirectToAction("Index");
 			}
 		}
 
@@ -92,26 +95,26 @@ namespace Crud.WebUI.Controllers
 			{
 				return HttpNotFound();
 			}
-			else 
-			{
+			else {
 				return View(posts);
 			}
 		}
-
 		[HttpPost]
+		[ActionName("Delete")]
 		public ActionResult ConfirmToDelete(string Id) {
-			Post PostToDelete = context.Find(Id);
-			if (PostToDelete == null)
+			Post postToDelete = context.Find(Id);
+			if (postToDelete == null)
 			{
 				return HttpNotFound();
 			}
-			else 
-			{
+			else {
 				context.Delete(Id);
 				context.Commit();
 
-				return Redirect("Index");
+				return RedirectToAction("Index");
 			}
 		}
+
+
 	}
 }

@@ -2,7 +2,7 @@ using System;
 using Crud.Core.Contracts;
 using Crud.Core.Models;
 using Unity;
-using Crud.SQL;
+using Crud.DataAccess.SQL;
 
 namespace Crud.WebUI
 {
@@ -45,6 +45,7 @@ namespace Crud.WebUI
 			// TODO: Register your type's mappings here.
 			// container.RegisterType<IProductRepository, ProductRepository>();
 			container.RegisterType<IRepository<Post>, SQLRepository<Post>>();
-        }
+			container.RegisterType<IRepository<PostCategory>, SQLRepository<PostCategory>>();
+		}
     }
 }

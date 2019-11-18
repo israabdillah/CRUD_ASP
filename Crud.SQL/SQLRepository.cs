@@ -6,8 +6,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Crud.Core.Contracts;
 using Crud.Core.Models;
+using Crud.SQL;
 
-namespace Crud.SQL
+namespace Crud.DataAccess.SQL
 {
 	public class SQLRepository<T> : IRepository<T> where T : BaseEntity
 	{
@@ -17,7 +18,7 @@ namespace Crud.SQL
 		public SQLRepository(DataContext context)
 		{
 			this.context = context;
-			dbSet = context.Set<T>();
+			this.dbSet = context.Set<T>();
 		}
 		public IQueryable<T> Collection()
 		{

@@ -1,0 +1,17 @@
+﻿@model Crud.Core.Models.Post
+
+@{
+	ViewBag.Title = Model.Title + " Details";
+}
+
+	<div>
+		<hr />
+		<h1>
+			@Html.DisplayFor(model => model.Title)
+		</h1>
+		<p>
+			@Html.DisplayFor(model => model.Description)
+		</p>
+		<p>@Html.ActionLink("Back to List", "Index")</p>
+	</div>
+<div class="col-md-12 clearfix"></div>
