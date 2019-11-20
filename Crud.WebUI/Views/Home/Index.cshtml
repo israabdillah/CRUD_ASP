@@ -15,9 +15,16 @@
 		<div class="col-md-12">
 			<h3>@item.Title</h3>
 			<p>
-				@item.Description
+				@{
+					string x = item.Description;
+					if (x != null && x.Length > 200)
+					{	
+						x = x.Substring(0, 200);
+					}
+				}
+				@Html.Raw(x) ...
 			</p>
-			<p><a class="btn btn-default" a href="@Url.Action("Details", "Home", new { Id=item.Id})">Read More &raquo;</a></p>
+			<p><a class="btn btn-success" a href="@Url.Action("Details", "Home", new { Id=item.Id})">Read More &raquo;</a></p>
 		</div>
 	</div>
 }

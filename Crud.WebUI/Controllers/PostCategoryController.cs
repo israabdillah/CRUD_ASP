@@ -26,11 +26,10 @@ namespace Crud.WebUI.Controllers
 			return View(postCategory);
 		}
 
-		[HttpPost]
 		public ActionResult Create(PostCategory postCategory) {
 			if (!ModelState.IsValid)
 			{
-				return View(postCategory);
+				return HttpNotFound();
 			}
 			else {
 				context.Insert(postCategory);
@@ -39,7 +38,6 @@ namespace Crud.WebUI.Controllers
 				return RedirectToAction("Index");
 			}
 		}
-
 		public ActionResult Edit(string Id) {
 			PostCategory postCategories = context.Find(Id);
 			if (postCategories == null)
@@ -51,17 +49,23 @@ namespace Crud.WebUI.Controllers
 			}
 		}
 		[HttpPost]
-		public ActionResult Edit(PostCategory postCategories, string Id) {
-			PostCategory posttCategoryToEdit = context.Find(Id);
-			if (posttCategoryToEdit == null)
+		public ActionResult Edit(PostCategory postCategory, string Id) {
+			PostCategory postToEdit = context.Find(Id);
+			if (postToEdit == null)
 			{
-				return View(postCategories);
+				return HttpNotFound();
 			}
 			else {
-				posttCategoryToEdit.Category = postCategories.Category;
-				context.Commit();
+				if (!ModelState.IsValid)
+				{
+					return View(postCategory);
+				}
+				else {
+					postToEdit.Category = postCategory.Category;
+					context.Commit();
 
-				return RedirectToAction("Index");
+					return RedirectToAction("Index");
+				}
 			}
 		}
 
@@ -77,7 +81,7 @@ namespace Crud.WebUI.Controllers
 		}
 		[HttpPost]
 		[ActionName("Delete")]
-		public ActionResult ConfirmToDelete(PostCategory postCategories, string Id) {
+		public ActionResult ConfirmToDelete(string Id) {
 			PostCategory postCategoryToDelete = context.Find(Id);
 			if (postCategoryToDelete == null)
 			{

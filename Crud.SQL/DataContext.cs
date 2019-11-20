@@ -10,10 +10,12 @@ namespace Crud.SQL
 {
 	public class DataContext : DbContext
 	{
-		public DataContext() : base("DefaultConnection") {
+		public DataContext()
+			: base("DefaultConnection")
+		{
+
 
 		}
-
 		public DbSet<Post> Posts { get; set; }
 		public DbSet<PostCategory> PostsCategory { get; set; }
     }

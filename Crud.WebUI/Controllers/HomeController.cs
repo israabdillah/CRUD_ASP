@@ -9,6 +9,7 @@ using Crud.Core.ViewModels;
 
 namespace Crud.WebUI.Controllers
 {
+	[RequireHttps]
 	public class HomeController : Controller
 	{
 		IRepository<Post> context;

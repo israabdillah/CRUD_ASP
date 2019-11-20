@@ -10,6 +10,8 @@ namespace Crud.Core.ViewModels
 	public class PostViewModel
 	{
 		public Post Posts { get; set; }
+		public PostCategory Categories { get; set; }
+		public IEnumerable<Post> Poste { get; set; }
 		public IEnumerable<PostCategory> PostCategories { get; set; }
 	}
 }

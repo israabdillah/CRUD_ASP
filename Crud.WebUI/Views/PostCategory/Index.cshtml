@@ -4,28 +4,29 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<h2>Category List</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+	<a href="@Url.Action("Create", "PostCategory")" class="btn btn-warning"><i class="glyphicon glyphicon-ok"></i>New Category</a>
 </p>
 <table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Category)
-        </th>
-        <th></th>
-    </tr>
+	<tr>
+		<th>
+			@Html.DisplayNameFor(model => model.Category)
+		</th>
+		<th>Action</th>
+		<th></th>
+	</tr>
 
 @foreach (var item in Model) {
     <tr>
         <td>
             @Html.DisplayFor(modelItem => item.Category)
         </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-        </td>
+		<td>
+			<a href="@Url.Action("Edit", "PostCategory", new { id=item.Id }))" class="btn btn-primary">Edit</a> 
+			<a href="@Url.Action("Delete", "PostCategory", new { id=item.Id }))" class="btn btn-danger">Delete</a> 
+		</td>
     </tr>
 }
 

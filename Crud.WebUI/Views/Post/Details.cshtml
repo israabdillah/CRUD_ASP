@@ -11,6 +11,6 @@
 	</p>
 </div>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
+	<a href="@Url.Action("Edit", "Post", new { id = Model.Id })" class="btn btn-primary">Edit</a>
+   <a href="@Url.Action("Index", "Post")" class="btn btn-danger">Back to List</a>
 </p>

@@ -3,6 +3,10 @@ using Crud.Core.Contracts;
 using Crud.Core.Models;
 using Unity;
 using Crud.DataAccess.SQL;
+using System.Data.Entity;
+using Crud.SQL;
+using Crud.WebUI.Controllers;
+using Unity.Injection;
 
 namespace Crud.WebUI
 {
@@ -12,19 +16,19 @@ namespace Crud.WebUI
     public static class UnityConfig
     {
         #region Unity Container
-        private static Lazy<IUnityContainer> container =
-          new Lazy<IUnityContainer>(() =>
-          {
-              var container = new UnityContainer();
-              RegisterTypes(container);
-              return container;
-          });
+		private static Lazy<IUnityContainer> container =
+		  new Lazy<IUnityContainer>(() =>
+		  {
+			  var container = new UnityContainer();
+			  RegisterTypes(container);
+			  return container;
+		  });
 
-        /// <summary>
-        /// Configured Unity Container.
-        /// </summary>
-        public static IUnityContainer Container => container.Value;
-        #endregion
+		/// <summary>
+		/// Configured Unity Container.
+		/// </summary>
+		public static IUnityContainer Container => container.Value;
+		#endregion
 
         /// <summary>
         /// Registers the type mappings with the Unity container.
@@ -46,6 +50,9 @@ namespace Crud.WebUI
 			// container.RegisterType<IProductRepository, ProductRepository>();
 			container.RegisterType<IRepository<Post>, SQLRepository<Post>>();
 			container.RegisterType<IRepository<PostCategory>, SQLRepository<PostCategory>>();
+			container.RegisterType<AccountController>(new InjectionConstructor());
+			container.RegisterType<ManageController>(new InjectionConstructor());
+
 		}
     }
 }

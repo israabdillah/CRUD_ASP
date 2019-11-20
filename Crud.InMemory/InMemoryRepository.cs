@@ -25,7 +25,7 @@ namespace Crud.InMemory
 			}
 		}
 
-		public void Commit()
+		public void Commit()	
 		{
 			cache[className] = items;
 		}
